@@ -1,9 +1,10 @@
-import { GET_SETTINGS, SET_SETTINGS } from '../types';
+import { GET_SETTINGS, INIT_FIELD, SET_CELL, SET_SETTINGS } from '../types';
 import { createReducer } from '../redux';
 
 const initialState = {
   fetchedSettings: [],
-  currentSettings: {}
+  currentSettings: {},
+  field: []
 };
 
 export default createReducer(initialState, {
@@ -17,6 +18,18 @@ export default createReducer(initialState, {
     return {
       ...state,
       currentSettings: payload
+    };
+  },
+  [INIT_FIELD]: (state, { payload }) => {
+    return {
+      ...state,
+      field: payload
+    };
+  },
+  [SET_CELL]: (state, { payload }) => {
+    return {
+      ...state,
+      field: payload
     };
   }
 });

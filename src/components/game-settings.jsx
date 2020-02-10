@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Select } from 'antd';
 import { connect } from 'react-redux';
-import { getSettings, setSettings } from '../store/actions/data-actions';
+import { getSettings, setSettings, initField } from '../store/actions/data-actions';
 
 const { Option } = Select;
 
-const GameSettings = ({ getSettings, setSettings, fetchedSettings }) => {
+const GameSettings = ({ getSettings, setSettings, initField, fetchedSettings }) => {
   useEffect(() => {
     getSettings();
     // eslint-disable-next-line
@@ -16,6 +16,7 @@ const GameSettings = ({ getSettings, setSettings, fetchedSettings }) => {
     fetchedSettings.forEach(el => {
       if (el[key]) {
         setSettings(el[key]);
+        initField(el[key].field * el[key].field);
       }
     });
   };
@@ -39,7 +40,8 @@ const GameSettings = ({ getSettings, setSettings, fetchedSettings }) => {
 
 GameSettings.propTypes = {
   getSettings: PropTypes.func.isRequired,
-  fetchedSettings: PropTypes.array
+  fetchedSettings: PropTypes.array,
+  initField: PropTypes.func.isRequired
 };
 
 GameSettings.defaultProps = {
@@ -50,4 +52,4 @@ const mapStateToProps = state => ({
   fetchedSettings: state.data.fetchedSettings
 });
 
-export default connect(mapStateToProps, { getSettings, setSettings })(GameSettings);
+export default connect(mapStateToProps, { getSettings, setSettings, initField })(GameSettings);
