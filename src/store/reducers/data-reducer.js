@@ -1,19 +1,22 @@
-import { GET_SETTINGS } from '../types';
+import { GET_SETTINGS, SET_SETTINGS } from '../types';
 import { createReducer } from '../redux';
 
 const initialState = {
-  project: null,
-  projects: null,
-  alert: null,
-  isMain: true
+  fetchedSettings: [],
+  currentSettings: {}
 };
 
 export default createReducer(initialState, {
   [GET_SETTINGS]: (state, { payload }) => {
     return {
       ...state,
-      project: payload,
-      alert: null
+      fetchedSettings: payload
+    };
+  },
+  [SET_SETTINGS]: (state, { payload }) => {
+    return {
+      ...state,
+      currentSettings: payload
     };
   }
 });

@@ -1,21 +1,30 @@
 import axios from 'axios';
-import { GET_SETTINGS } from '../types';
+import { GET_SETTINGS, SET_SETTINGS } from '../types';
 
 axios.defaults.baseURL = 'https://starnavi-frontend-test-task.herokuapp.com/';
 
-// export const getProject = project_name => dispatch => {
-//   axios
-//     .get(`/project/${project_name}`)
-//     .then(res => {
-//       dispatch({
-//         type: GET_PROJECT,
-//         payload: res.data
-//       });
-//     })
-//     .catch(({ response }) => {
-//       dispatch({
-//         type: SET_ALERT,
-//         payload: response.data.error
-//       });
-//     });
-// };
+// Fetch settings from server
+export const getSettings = () => dispatch => {
+  axios
+    .get('/game-settings')
+    .then(res => {
+      const result = Object.keys(res.data).map(key => {
+        return { [key]: res.data[key] };
+      });
+      dispatch({
+        type: GET_SETTINGS,
+        payload: result
+      });
+    })
+    .catch(err => {
+      console.log(err.message);
+    });
+};
+
+// Set user difficulty settings
+export const setSettings = settings => dispatch => {
+  dispatch({
+    type: SET_SETTINGS,
+    payload: settings
+  });
+};
