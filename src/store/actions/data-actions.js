@@ -1,5 +1,12 @@
 import axios from 'axios';
-import { GET_SETTINGS, INIT_FIELD, SET_SETTINGS, SET_CELL } from '../types';
+import {
+  GET_SETTINGS,
+  INIT_FIELD,
+  SET_SETTINGS,
+  SET_CELL,
+  SET_CURRENT_CELL,
+  SET_RED_CELL
+} from '../types';
 
 axios.defaults.baseURL = 'https://starnavi-frontend-test-task.herokuapp.com/';
 
@@ -41,17 +48,43 @@ export const initField = size => dispatch => {
   });
 };
 
+// export const setCurrent = cell => dispatch => {
+//   console.log(cell);
+//   dispatch({
+//     type: SET_CURRENT_CELL,
+//     payload: cell
+//   });
+// };
+
 // Change Cell status [0-empty, 1-blue, 2-green, 3-red]
-export const changeCell = (field, id, status) => dispatch => {
-  const newField = [...field];
-  const replaceObj = {
+export const changeCell = (id, status) => (dispatch, getState) => {
+  const field = [...getState().data.field];
+  const replaceCell = {
     id,
     status
   };
-  const idx = newField.findIndex(el => el.id === id);
-  newField[idx] = replaceObj;
+  const idx = field.findIndex(el => el.id === id);
+  field[idx] = replaceCell;
+  dispatch({
+    type: SET_CURRENT_CELL,
+    payload: replaceCell
+  });
   dispatch({
     type: SET_CELL,
-    payload: newField
+    payload: field
   });
 };
+
+// export const setRed = (field, id, status) => (dispatch, getState) => {
+//   const newField = [...field];
+//   const replaceObj = {
+//     id,
+//     status
+//   };
+//   const idx = newField.findIndex(el => el.id === id);
+//   newField[idx] = replaceObj;
+//   dispatch({
+//     type: SET_RED_CELL,
+//     payload: newField
+//   });
+// };

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { initField, changeCell } from '../store/actions/data-actions';
-import useInterval from '../util/timeout';
+import useInterval from '../util/set-interval';
 
 const StyledField = styled.div`
   width: 350px;
@@ -16,25 +16,23 @@ const StyledField = styled.div`
   }
 `;
 
-const GameField = ({ currentSettings, field, changeCell }) => {
+const GameField = ({ currentSettings, curElement, field, changeCell, setRed }) => {
   const [isRunning, setIsRunning] = useState(false);
-  const onClick = id => {
-    changeCell(field, id, 2);
-  };
-  const startGame = () => {
-    // const interval = setInterval(oneRound, currentSettings.delay);
+  const onClick = (id, status) => {
+    changeCell(id, 2);
   };
 
   const oneRound = () => {
     const result = [...field];
-    const newResult = result.filter(el => el.status !== 2);
+    const newResult = result.filter(el => el.status === 0);
     const element = newResult[Math.floor(Math.random() * Math.floor(newResult.length))];
-    onClick(element.id);
+    if (newResult.length !== 0) {
+      changeCell(element.id, 1);
+    }
   };
 
   const startRound = () => {
     setIsRunning(true);
-    // oneRound();
   };
 
   const stopRound = () => {
@@ -43,10 +41,14 @@ const GameField = ({ currentSettings, field, changeCell }) => {
 
   useInterval(
     () => {
-      console.log('work');
+      if (curElement !== null && curElement.status === 1) {
+        // setRed(field, curElement.id, 3);
+        changeCell(curElement.id, 3);
+        console.log(curElement.id);
+      }
       oneRound();
     },
-    isRunning ? 800 : null
+    isRunning ? 2000 : null
   );
 
   return (
@@ -63,9 +65,16 @@ const GameField = ({ currentSettings, field, changeCell }) => {
             return (
               <div
                 key={el.id}
-                onClick={() => onClick(el.id)}
+                onClick={() => onClick(el.id, el.status)}
                 style={{
-                  background: el.status === 2 ? 'green' : el.status === 1 ? 'blue' : 'white'
+                  background:
+                    el.status === 2
+                      ? 'green'
+                      : el.status === 1
+                      ? 'blue'
+                      : el.status === 3
+                      ? 'red'
+                      : 'white'
                 }}
               />
             );
@@ -78,12 +87,24 @@ const GameField = ({ currentSettings, field, changeCell }) => {
 GameField.propTypes = {
   currentSettings: PropTypes.object.isRequired,
   field: PropTypes.array.isRequired,
-  changeCell: PropTypes.func.isRequired
+  changeCell: PropTypes.func.isRequired,
+  isGameStarted: PropTypes.bool.isRequired,
+  isPlayerTurn: PropTypes.bool.isRequired,
+  isComputerTurn: PropTypes.bool.isRequired,
+  curElement: PropTypes.object
+};
+
+GameField.defaultProps = {
+  curElement: null
 };
 
 const mapStateToProps = state => ({
   currentSettings: state.data.currentSettings,
-  field: state.data.field
+  field: state.data.field,
+  isGameStarted: state.data.isGameStarted,
+  isPlayerTurn: state.data.isPlayerTurn,
+  isComputerTurn: state.data.isComputerTurn,
+  curElement: state.data.curElement
 });
 
 export default connect(mapStateToProps, { initField, changeCell })(GameField);
