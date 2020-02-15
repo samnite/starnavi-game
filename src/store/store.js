@@ -4,6 +4,7 @@ import thunkMiddleware from 'redux-thunk';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import dataReducer from './reducers/data-reducer';
+import scoresReducer from './reducers/scores-reducer';
 
 let mStore;
 
@@ -12,7 +13,8 @@ const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
   router: connectRouter(history),
-  data: dataReducer
+  data: dataReducer,
+  scores: scoresReducer
 });
 
 export const createNewStore = state =>

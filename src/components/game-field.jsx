@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { initField, changeCell } from '../store/actions/data-actions';
+import { setUserScores, setComputerScores } from '../store/actions/scores-actions';
 import useInterval from '../util/set-interval';
 
 const StyledField = styled.div`
@@ -16,10 +17,27 @@ const StyledField = styled.div`
   }
 `;
 
-const GameField = ({ currentSettings, curElement, field, changeCell, setRed }) => {
+const GameField = ({
+  currentSettings,
+  curElement,
+  field,
+  changeCell,
+  userScores,
+  setUserScores,
+  setComputerScores
+}) => {
   const [isRunning, setIsRunning] = useState(false);
+
   const onClick = (id, status) => {
-    changeCell(id, 2);
+    if (status === 1) {
+      changeCell(id, 2);
+      setUserScores();
+      if (userScores >= field.length / 2 - 1) {
+        setIsRunning(false);
+        console.log('win');
+      }
+      console.log(userScores);
+    }
   };
 
   const oneRound = () => {
@@ -42,13 +60,12 @@ const GameField = ({ currentSettings, curElement, field, changeCell, setRed }) =
   useInterval(
     () => {
       if (curElement !== null && curElement.status === 1) {
-        // setRed(field, curElement.id, 3);
         changeCell(curElement.id, 3);
-        console.log(curElement.id);
+        setComputerScores();
       }
       oneRound();
     },
-    isRunning ? 2000 : null
+    isRunning ? 1000 : null
   );
 
   return (
@@ -91,7 +108,10 @@ GameField.propTypes = {
   isGameStarted: PropTypes.bool.isRequired,
   isPlayerTurn: PropTypes.bool.isRequired,
   isComputerTurn: PropTypes.bool.isRequired,
-  curElement: PropTypes.object
+  curElement: PropTypes.object,
+  userScores: PropTypes.number.isRequired,
+  setUserScores: PropTypes.func.isRequired,
+  setComputerScores: PropTypes.func.isRequired
 };
 
 GameField.defaultProps = {
@@ -104,7 +124,13 @@ const mapStateToProps = state => ({
   isGameStarted: state.data.isGameStarted,
   isPlayerTurn: state.data.isPlayerTurn,
   isComputerTurn: state.data.isComputerTurn,
-  curElement: state.data.curElement
+  curElement: state.data.curElement,
+  userScores: state.scores.userScores
 });
 
-export default connect(mapStateToProps, { initField, changeCell })(GameField);
+export default connect(mapStateToProps, {
+  initField,
+  changeCell,
+  setUserScores,
+  setComputerScores
+})(GameField);
