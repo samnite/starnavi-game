@@ -13,3 +13,4 @@ export const SET_RED_CELL = 'SET_RED_CELL';
 // Game Scores Types
 export const SET_USER_SCORES = 'SET_USER_SCORES';
 export const SET_COMPUTER_SCORES = 'SET_COMPUTER_SCORES';
+export const SET_PLAYER_NAME = 'SET_PLAYER_NAME';

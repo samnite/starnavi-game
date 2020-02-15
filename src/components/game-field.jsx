@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { initField, changeCell, setStartGame } from '../store/actions/data-actions';
 import { setUserScores, setComputerScores } from '../store/actions/scores-actions';
 import useInterval from '../util/set-interval';
+import StartGameButton from './start-game-button';
 
 const StyledField = styled.div`
   width: 350px;
@@ -28,19 +29,12 @@ const GameField = ({
   setComputerScores,
   setStartGame
 }) => {
-  // const [isRunning, setIsRunning] = useState(false);
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
 
   const onClick = (id, status) => {
     if (status === 1 && isPlayerTurn) {
       changeCell(id, 2);
       setUserScores();
-      // if (userScores >= field.length / 2 - 1) {
-      //   // setIsRunning(false);
-      //   setStartGame(false);
-      //   console.log('win');
-      // }
-      // console.log(userScores);
     }
   };
 
@@ -54,12 +48,10 @@ const GameField = ({
   };
 
   const startRound = () => {
-    // setIsRunning(true);
     setStartGame(true);
   };
 
   const stopRound = () => {
-    // setIsRunning(false);
     setStartGame(false);
   };
 
@@ -67,20 +59,17 @@ const GameField = ({
     () => {
       if (curElement !== null && curElement.status === 1) {
         changeCell(curElement.id, 3);
-        // 10% chance of computer miss click
-        setIsPlayerTurn(Math.random() < 0.1);
+        // 30% chance of computer miss click
+        setIsPlayerTurn(Math.random() < 0.3);
         setComputerScores();
       }
       oneRound();
     },
-    isGameStarted ? 1000 : null
+    isGameStarted ? currentSettings.delay : null
   );
 
   return (
     <>
-      <button type="submit" onClick={startRound}>
-        Start
-      </button>
       <button type="submit" onClick={stopRound}>
         Stop
       </button>

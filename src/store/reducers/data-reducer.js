@@ -17,8 +17,7 @@ const initialState = {
   message: '',
   curElement: null,
   isGameStarted: false,
-  isPlayerTurn: false,
-  isComputerTurn: false
+  isPlayerTurn: false
 };
 
 export default createReducer(initialState, {

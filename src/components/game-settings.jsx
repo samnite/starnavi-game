@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { Select } from 'antd';
 import { connect } from 'react-redux';
 import { getSettings, setSettings, initField } from '../store/actions/data-actions';
+import StartGameButton from './start-game-button';
+import NameField from './name-field';
 
 const { Option } = Select;
 
-const GameSettings = ({ getSettings, setSettings, initField, fetchedSettings }) => {
+const GameSettings = ({ initField, isGameStarted, getSettings, setSettings, fetchedSettings }) => {
   useEffect(() => {
     getSettings();
     // eslint-disable-next-line
@@ -23,7 +25,12 @@ const GameSettings = ({ getSettings, setSettings, initField, fetchedSettings }) 
 
   return (
     <div>
-      <Select defaultValue="Pick game mode" onChange={onChange}>
+      <Select
+        defaultValue="Pick game mode"
+        disabled={isGameStarted}
+        onChange={onChange}
+        style={{ width: '150px' }}
+      >
         {fetchedSettings &&
           fetchedSettings.map(el => {
             const value = Object.keys(el)[0];
@@ -34,6 +41,8 @@ const GameSettings = ({ getSettings, setSettings, initField, fetchedSettings }) 
             );
           })}
       </Select>
+      <NameField />
+      <StartGameButton />
     </div>
   );
 };
@@ -41,7 +50,8 @@ const GameSettings = ({ getSettings, setSettings, initField, fetchedSettings }) 
 GameSettings.propTypes = {
   getSettings: PropTypes.func.isRequired,
   fetchedSettings: PropTypes.array,
-  initField: PropTypes.func.isRequired
+  initField: PropTypes.func.isRequired,
+  isGameStarted: PropTypes.bool.isRequired
 };
 
 GameSettings.defaultProps = {
@@ -49,7 +59,8 @@ GameSettings.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  fetchedSettings: state.data.fetchedSettings
+  fetchedSettings: state.data.fetchedSettings,
+  isGameStarted: state.data.isGameStarted
 });
 
 export default connect(mapStateToProps, { getSettings, setSettings, initField })(GameSettings);

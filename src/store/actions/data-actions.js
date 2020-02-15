@@ -64,34 +64,33 @@ export const changeCell = (id, status) => (dispatch, getState) => {
   const { computerScores } = getState().scores;
 
   // Check if User is a winner
-  if (userScores > field.length / 2 - 1) {
+  if (userScores > field.length / 2) {
     dispatch({
       type: SET_GAME_STARTED,
       payload: false
     });
-  }
-  // Check if Computer is a winner
-  if (computerScores > field.length / 2) {
+    // Check if Computer is a winner
+  } else if (computerScores > field.length / 2) {
     dispatch({
       type: SET_GAME_STARTED,
       payload: false
     });
+  } else {
+    const replaceCell = {
+      id,
+      status
+    };
+    const idx = field.findIndex(el => el.id === id);
+    field[idx] = replaceCell;
+    dispatch({
+      type: SET_CURRENT_CELL,
+      payload: replaceCell
+    });
+    dispatch({
+      type: SET_CELL,
+      payload: field
+    });
   }
-
-  const replaceCell = {
-    id,
-    status
-  };
-  const idx = field.findIndex(el => el.id === id);
-  field[idx] = replaceCell;
-  dispatch({
-    type: SET_CURRENT_CELL,
-    payload: replaceCell
-  });
-  dispatch({
-    type: SET_CELL,
-    payload: field
-  });
 };
 
 // export const setRed = (field, id, status) => (dispatch, getState) => {
