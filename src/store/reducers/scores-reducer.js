@@ -1,4 +1,4 @@
-import { GET_SETTINGS, SET_COMPUTER_SCORES, SET_USER_SCORES } from '../types';
+import { SET_COMPUTER_SCORES, SET_USER_SCORES } from '../types';
 import { createReducer } from '../redux';
 
 const initialState = {

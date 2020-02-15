@@ -5,7 +5,8 @@ import {
   SET_SETTINGS,
   SET_CELL,
   SET_CURRENT_CELL,
-  SET_RED_CELL
+  SET_RED_CELL,
+  SET_GAME_STARTED
 } from '../types';
 
 axios.defaults.baseURL = 'https://starnavi-frontend-test-task.herokuapp.com/';
@@ -36,7 +37,7 @@ export const setSettings = settings => dispatch => {
   });
 };
 
-// Generate game - field
+// Generate game field
 export const initField = size => dispatch => {
   const field = [];
   for (let i = 1; i <= size; i++) {
@@ -48,17 +49,35 @@ export const initField = size => dispatch => {
   });
 };
 
-// export const setCurrent = cell => dispatch => {
-//   console.log(cell);
-//   dispatch({
-//     type: SET_CURRENT_CELL,
-//     payload: cell
-//   });
-// };
+// Set game status (isGameStarted: true/false)
+export const setStartGame = status => dispatch => {
+  dispatch({
+    type: SET_GAME_STARTED,
+    payload: status
+  });
+};
 
 // Change Cell status [0-empty, 1-blue, 2-green, 3-red]
 export const changeCell = (id, status) => (dispatch, getState) => {
   const field = [...getState().data.field];
+  const { userScores } = getState().scores;
+  const { computerScores } = getState().scores;
+
+  // Check if User is a winner
+  if (userScores > field.length / 2 - 1) {
+    dispatch({
+      type: SET_GAME_STARTED,
+      payload: false
+    });
+  }
+  // Check if Computer is a winner
+  if (computerScores > field.length / 2) {
+    dispatch({
+      type: SET_GAME_STARTED,
+      payload: false
+    });
+  }
+
   const replaceCell = {
     id,
     status

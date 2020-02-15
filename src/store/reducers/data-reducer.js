@@ -4,7 +4,9 @@ import {
   SET_CELL,
   SET_CURRENT_CELL,
   SET_SETTINGS,
-  SET_RED_CELL
+  SET_RED_CELL,
+  SET_MESSAGE,
+  SET_GAME_STARTED
 } from '../types';
 import { createReducer } from '../redux';
 
@@ -12,6 +14,7 @@ const initialState = {
   fetchedSettings: [],
   currentSettings: {},
   field: [],
+  message: '',
   curElement: null,
   isGameStarted: false,
   isPlayerTurn: false,
@@ -19,6 +22,12 @@ const initialState = {
 };
 
 export default createReducer(initialState, {
+  [SET_GAME_STARTED]: (state, { payload }) => {
+    return {
+      ...state,
+      isGameStarted: payload
+    };
+  },
   [GET_SETTINGS]: (state, { payload }) => {
     return {
       ...state,
@@ -29,6 +38,12 @@ export default createReducer(initialState, {
     return {
       ...state,
       currentSettings: payload
+    };
+  },
+  [SET_MESSAGE]: (state, { payload }) => {
+    return {
+      ...state,
+      message: payload
     };
   },
   [INIT_FIELD]: (state, { payload }) => {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { initField, changeCell } from '../store/actions/data-actions';
+import { initField, changeCell, setStartGame } from '../store/actions/data-actions';
 import { setUserScores, setComputerScores } from '../store/actions/scores-actions';
 import useInterval from '../util/set-interval';
 
@@ -19,24 +19,28 @@ const StyledField = styled.div`
 
 const GameField = ({
   currentSettings,
+  isGameStarted,
   curElement,
   field,
   changeCell,
   userScores,
   setUserScores,
-  setComputerScores
+  setComputerScores,
+  setStartGame
 }) => {
-  const [isRunning, setIsRunning] = useState(false);
+  // const [isRunning, setIsRunning] = useState(false);
+  const [isPlayerTurn, setIsPlayerTurn] = useState(true);
 
   const onClick = (id, status) => {
-    if (status === 1) {
+    if (status === 1 && isPlayerTurn) {
       changeCell(id, 2);
       setUserScores();
-      if (userScores >= field.length / 2 - 1) {
-        setIsRunning(false);
-        console.log('win');
-      }
-      console.log(userScores);
+      // if (userScores >= field.length / 2 - 1) {
+      //   // setIsRunning(false);
+      //   setStartGame(false);
+      //   console.log('win');
+      // }
+      // console.log(userScores);
     }
   };
 
@@ -50,22 +54,26 @@ const GameField = ({
   };
 
   const startRound = () => {
-    setIsRunning(true);
+    // setIsRunning(true);
+    setStartGame(true);
   };
 
   const stopRound = () => {
-    setIsRunning(false);
+    // setIsRunning(false);
+    setStartGame(false);
   };
 
   useInterval(
     () => {
       if (curElement !== null && curElement.status === 1) {
         changeCell(curElement.id, 3);
+        // 10% chance of computer miss click
+        setIsPlayerTurn(Math.random() < 0.1);
         setComputerScores();
       }
       oneRound();
     },
-    isRunning ? 1000 : null
+    isGameStarted ? 1000 : null
   );
 
   return (
@@ -105,25 +113,27 @@ GameField.propTypes = {
   currentSettings: PropTypes.object.isRequired,
   field: PropTypes.array.isRequired,
   changeCell: PropTypes.func.isRequired,
-  isGameStarted: PropTypes.bool.isRequired,
-  isPlayerTurn: PropTypes.bool.isRequired,
-  isComputerTurn: PropTypes.bool.isRequired,
+  isGameStarted: PropTypes.bool,
+  // isPlayerTurn: PropTypes.bool.isRequired,
+  // isComputerTurn: PropTypes.bool.isRequired,
   curElement: PropTypes.object,
   userScores: PropTypes.number.isRequired,
   setUserScores: PropTypes.func.isRequired,
-  setComputerScores: PropTypes.func.isRequired
+  setComputerScores: PropTypes.func.isRequired,
+  setStartGame: PropTypes.func.isRequired
 };
 
 GameField.defaultProps = {
-  curElement: null
+  curElement: null,
+  isGameStarted: false
 };
 
 const mapStateToProps = state => ({
   currentSettings: state.data.currentSettings,
   field: state.data.field,
   isGameStarted: state.data.isGameStarted,
-  isPlayerTurn: state.data.isPlayerTurn,
-  isComputerTurn: state.data.isComputerTurn,
+  // isPlayerTurn: state.data.isPlayerTurn,
+  // isComputerTurn: state.data.isComputerTurn,
   curElement: state.data.curElement,
   userScores: state.scores.userScores
 });
@@ -132,5 +142,6 @@ export default connect(mapStateToProps, {
   initField,
   changeCell,
   setUserScores,
-  setComputerScores
+  setComputerScores,
+  setStartGame
 })(GameField);
