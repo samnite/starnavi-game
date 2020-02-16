@@ -6,7 +6,8 @@ import {
   SET_CELL,
   SET_CURRENT_CELL,
   SET_RED_CELL,
-  SET_GAME_STARTED
+  SET_GAME_STARTED,
+  SET_MESSAGE
 } from '../types';
 
 axios.defaults.baseURL = 'https://starnavi-frontend-test-task.herokuapp.com/';
@@ -69,6 +70,10 @@ export const changeCell = (id, status) => (dispatch, getState) => {
       type: SET_GAME_STARTED,
       payload: false
     });
+    dispatch({
+      type: SET_MESSAGE,
+      payload: `${getState().scores.playerName} win the game!`
+    });
     // Check if Computer is a winner
   } else if (computerScores > field.length / 2) {
     dispatch({
@@ -93,16 +98,9 @@ export const changeCell = (id, status) => (dispatch, getState) => {
   }
 };
 
-// export const setRed = (field, id, status) => (dispatch, getState) => {
-//   const newField = [...field];
-//   const replaceObj = {
-//     id,
-//     status
-//   };
-//   const idx = newField.findIndex(el => el.id === id);
-//   newField[idx] = replaceObj;
-//   dispatch({
-//     type: SET_RED_CELL,
-//     payload: newField
-//   });
-// };
+export const setMessage = message => dispatch => {
+  dispatch({
+    type: SET_MESSAGE,
+    payload: message
+  });
+};

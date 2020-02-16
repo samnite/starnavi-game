@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Input } from 'antd';
+import { Input, Icon } from 'antd';
 import { setPlayerName } from '../store/actions/scores-actions';
 
 const NameField = ({ isGameStarted, setPlayerName }) => {
@@ -11,6 +11,7 @@ const NameField = ({ isGameStarted, setPlayerName }) => {
   return (
     <>
       <Input
+        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
         placeholder="Enter your name"
         style={{ width: '150px' }}
         disabled={isGameStarted}
