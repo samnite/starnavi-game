@@ -7,8 +7,10 @@ import { setStartGame, reStartGame } from '../../store/actions/data-actions';
 const StartGameButton = ({ winner, field, playerName, setStartGame, reStartGame }) => {
   const [isActive, setIsActive] = useState(false);
   useEffect(() => {
-    if (field.length !== 0 && playerName !== '') {
+    if (field.length !== 0 && playerName) {
       setIsActive(true);
+    } else {
+      setIsActive(false);
     }
   }, [playerName, field.length]);
 
