@@ -86,7 +86,7 @@ export const changeCell = (id, status) => (dispatch, getState) => {
     // Init winner object
     const winner = {
       winner: getState().scores.playerName,
-      date: moment().format('LLL')
+      date: moment().format('MMMM D YYYY, HH:mm')
     };
     dispatch({
       type: SET_WINNER,
@@ -106,7 +106,7 @@ export const changeCell = (id, status) => (dispatch, getState) => {
     // Init winner object
     const winner = {
       winner: 'Computer AI',
-      date: moment().format('LLL')
+      date: moment().format('MMMM D YYYY, HH:mm')
     };
     dispatch({
       type: SET_WINNER,
