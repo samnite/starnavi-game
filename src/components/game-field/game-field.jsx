@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { initField, changeCell, setStartGame } from '../../store/actions/data-actions';
 import { setUserScores, setComputerScores } from '../../store/actions/scores-actions';
 import useInterval from '../../util/set-interval';
-import StartGameButton from '../game-header/start-game-button';
 
 const StyledField = styled.div`
   width: 350px;
@@ -72,6 +71,7 @@ const GameField = ({
       oneRound();
     },
     isGameStarted ? 100 : null
+    // isGameStarted ? currentSettings.delay : null
   );
 
   return (

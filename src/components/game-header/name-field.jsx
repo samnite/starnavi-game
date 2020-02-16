@@ -30,8 +30,6 @@ const NameField = ({ isGameStarted, setPlayerName }) => {
   );
 };
 
-// TODO: ADD init settings to enable button
-
 NameField.propTypes = {
   isGameStarted: PropTypes.bool.isRequired,
   setPlayerName: PropTypes.func.isRequired

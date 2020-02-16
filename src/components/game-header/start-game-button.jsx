@@ -17,7 +17,7 @@ const StartGameButton = ({
     if (field.length !== 0 && playerName !== '') {
       setIsActive(true);
     }
-  }, [playerName]);
+  }, [playerName, field.length]);
 
   const startGame = () => {
     setStartGame(true);

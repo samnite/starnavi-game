@@ -1,4 +1,5 @@
 import {
+  GET_LEADERS,
   SET_COMPUTER_SCORES,
   SET_PLAYER_NAME,
   SET_RESET_SCORES,
@@ -11,7 +12,8 @@ const initialState = {
   userScores: 0,
   computerScores: 0,
   playerName: '',
-  winner: null
+  winner: null,
+  leaders: []
 };
 
 export default createReducer(initialState, {
@@ -45,6 +47,12 @@ export default createReducer(initialState, {
       winner: null,
       userScores: 0,
       computerScores: 0
+    };
+  },
+  [GET_LEADERS]: (state, { payload }) => {
+    return {
+      ...state,
+      leaders: payload
     };
   }
 });

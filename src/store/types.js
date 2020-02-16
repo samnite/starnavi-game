@@ -15,3 +15,4 @@ export const SET_COMPUTER_SCORES = 'SET_COMPUTER_SCORES';
 export const SET_PLAYER_NAME = 'SET_PLAYER_NAME';
 export const SET_WINNER = 'SET_WINNER';
 export const SET_RESET_SCORES = 'SET_RESET_SCORES';
+export const GET_LEADERS = 'GET_LEADERS';

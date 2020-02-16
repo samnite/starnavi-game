@@ -1,4 +1,5 @@
 import axios from 'axios';
+import moment from 'moment';
 import {
   GET_SETTINGS,
   INIT_FIELD,
@@ -86,7 +87,7 @@ export const changeCell = (id, status) => (dispatch, getState) => {
     const winner = {
       name: getState().scores.playerName,
       scores: getState().scores.userScores,
-      date: new Date()
+      date: moment().format('LLL')
     };
     dispatch({
       type: SET_WINNER,
@@ -107,7 +108,7 @@ export const changeCell = (id, status) => (dispatch, getState) => {
     const winner = {
       name: 'Computer AI',
       scores: getState().scores.computerScores,
-      date: new Date()
+      date: moment().format('LLL')
     };
     dispatch({
       type: SET_WINNER,
