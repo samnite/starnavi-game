@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { initField, changeCell, setStartGame } from '../../store/actions/data-actions';
 import { setUserScores, setComputerScores } from '../../store/actions/scores-actions';
-import useInterval from '../../util/set-interval';
+import useInterval from '../util/set-interval';
 
 const StyledField = styled.div`
   width: 350px;
@@ -64,14 +64,13 @@ const GameField = ({
     () => {
       if (curElement !== null && curElement.status === 1) {
         changeCell(curElement.id, 3);
-        // 30% chance of computer miss click
+        // Simulation 30% chance of computer miss click
         setIsPlayerTurn(Math.random() < 0.3);
         setComputerScores();
       }
       oneRound();
     },
-    isGameStarted ? 100 : null
-    // isGameStarted ? currentSettings.delay : null
+    isGameStarted ? currentSettings.delay : null
   );
 
   return (

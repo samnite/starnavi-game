@@ -7,8 +7,6 @@ import {
   SET_USER_SCORES
 } from '../types';
 
-axios.defaults.baseURL = 'https://starnavi-frontend-test-task.herokuapp.com';
-
 export const setUserScores = () => (dispatch, getState) => {
   const scores = getState().scores.userScores;
   dispatch({
@@ -39,7 +37,23 @@ export const getLeaders = () => dispatch => {
     .then(res => {
       dispatch({
         type: GET_LEADERS,
-        payload: res.data
+        payload: res.data.reverse()
+      });
+    })
+    .catch(err => {
+      console.log(err.message);
+    });
+};
+
+// Send winner result to server
+export const sendResult = () => (dispatch, getState) => {
+  const winner = { ...getState().scores.winner };
+  axios
+    .post('/winners', winner)
+    .then(res => {
+      dispatch({
+        type: GET_LEADERS,
+        payload: res.data.reverse()
       });
     })
     .catch(err => {

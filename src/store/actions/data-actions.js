@@ -85,8 +85,7 @@ export const changeCell = (id, status) => (dispatch, getState) => {
     });
     // Init winner object
     const winner = {
-      name: getState().scores.playerName,
-      scores: getState().scores.userScores,
+      winner: getState().scores.playerName,
       date: moment().format('LLL')
     };
     dispatch({
@@ -106,8 +105,7 @@ export const changeCell = (id, status) => (dispatch, getState) => {
     });
     // Init winner object
     const winner = {
-      name: 'Computer AI',
-      scores: getState().scores.computerScores,
+      winner: 'Computer AI',
       date: moment().format('LLL')
     };
     dispatch({

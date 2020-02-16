@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 const StyledMessage = styled.h2`
-  color: rgba(0, 0, 0, 0.25);
+  color: #333;
   text-align: center;
   margin: 1rem;
 `;

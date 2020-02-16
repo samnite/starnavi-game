@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { getLeaders } from '../../store/actions/scores-actions';
+import { getLeaders, sendResult } from '../../store/actions/scores-actions';
 import LeaderItem from './leader-item';
+import Spinner from '../util/spinner';
 
 const StyledLeaders = styled.ul`
   list-style: none;
@@ -14,34 +15,54 @@ const StyledLeaders = styled.ul`
     text-align: center;
   }
 `;
+const StyledHeader = styled.h2`
+  text-align: center;
+`;
 
-const Leaders = ({ leaders, getLeaders }) => {
+const Leaders = ({ leaders, winner, getLeaders, sendResult }) => {
   useEffect(() => {
     getLeaders();
-    console.log(leaders);
   }, []);
+  useEffect(() => {
+    if (winner !== null) {
+      sendResult();
+    }
+  }, [winner]);
 
   return (
-    <StyledLeaders>
-      <h2>Leader Board</h2>
-      {leaders.length === 0 ? (
-        <p>loading...</p>
-      ) : (
-        leaders.map(leader => {
-          return <LeaderItem item={leader} key={leader.id} />;
-        })
-      )}
-    </StyledLeaders>
+    <>
+      <StyledHeader>Leader Board</StyledHeader>
+      <StyledLeaders>
+        {leaders.length === 0 ? (
+          <Spinner />
+        ) : (
+          leaders.map((leader, idx) => {
+            // View no more than 10 result items
+            if (idx < 10) {
+              return <LeaderItem item={leader} key={leader.id} />;
+            }
+            return null;
+          })
+        )}
+      </StyledLeaders>
+    </>
   );
 };
 
 Leaders.propTypes = {
   getLeaders: PropTypes.func.isRequired,
-  leaders: PropTypes.array.isRequired
+  leaders: PropTypes.array.isRequired,
+  winner: PropTypes.object,
+  sendResult: PropTypes.func.isRequired
+};
+
+Leaders.defaultProps = {
+  winner: null
 };
 
 const mapStateToProps = state => ({
-  leaders: state.scores.leaders
+  leaders: state.scores.leaders,
+  winner: state.scores.winner
 });
 
-export default connect(mapStateToProps, { getLeaders })(Leaders);
+export default connect(mapStateToProps, { getLeaders, sendResult })(Leaders);
