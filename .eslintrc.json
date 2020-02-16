@@ -9,10 +9,8 @@
   },
   "rules": {
     "consistent-return": "off",
-    "react/prop-types": "off",
     "react/forbid-prop-types": "off",
     "no-shadow": "off",
-    "no-unused-vars": "off",
     "no-console": "off",
     "no-nested-ternary": "off",
     "no-plusplus": "off",

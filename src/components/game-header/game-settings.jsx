@@ -51,6 +51,7 @@ const GameSettings = ({ initField, isGameStarted, getSettings, setSettings, fetc
 
 GameSettings.propTypes = {
   getSettings: PropTypes.func.isRequired,
+  setSettings: PropTypes.func.isRequired,
   fetchedSettings: PropTypes.array,
   initField: PropTypes.func.isRequired,
   isGameStarted: PropTypes.bool.isRequired

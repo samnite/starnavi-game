@@ -6,7 +6,6 @@ import {
   SET_SETTINGS,
   SET_CELL,
   SET_CURRENT_CELL,
-  SET_RED_CELL,
   SET_GAME_STARTED,
   SET_MESSAGE,
   SET_WINNER,
@@ -42,6 +41,7 @@ export const setSettings = settings => dispatch => {
   });
 };
 
+// Generate game field
 const generateField = size => {
   const field = [];
   for (let i = 1; i <= size; i++) {
@@ -50,7 +50,7 @@ const generateField = size => {
   return field;
 };
 
-// Generate game field
+// Init game field
 export const initField = size => dispatch => {
   const field = generateField(size);
   dispatch({
@@ -130,6 +130,7 @@ export const changeCell = (id, status) => (dispatch, getState) => {
   }
 };
 
+// Restart game (Play again)
 export const reStartGame = () => (dispatch, getState) => {
   const size = getState().data.currentSettings.field;
   const field = generateField(size * size);

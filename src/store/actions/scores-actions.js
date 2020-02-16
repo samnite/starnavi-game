@@ -1,11 +1,5 @@
 import axios from 'axios';
-import {
-  GET_LEADERS,
-  GET_SETTINGS,
-  SET_COMPUTER_SCORES,
-  SET_PLAYER_NAME,
-  SET_USER_SCORES
-} from '../types';
+import { GET_LEADERS, SET_COMPUTER_SCORES, SET_PLAYER_NAME, SET_USER_SCORES } from '../types';
 
 export const setUserScores = () => (dispatch, getState) => {
   const scores = getState().scores.userScores;

@@ -22,11 +22,13 @@ const StyledHeader = styled.h2`
 const Leaders = ({ leaders, winner, getLeaders, sendResult }) => {
   useEffect(() => {
     getLeaders();
+    // eslint-disable-next-line
   }, []);
   useEffect(() => {
     if (winner !== null) {
       sendResult();
     }
+    // eslint-disable-next-line
   }, [winner]);
 
   return (
@@ -37,7 +39,7 @@ const Leaders = ({ leaders, winner, getLeaders, sendResult }) => {
           <Spinner />
         ) : (
           leaders.map((leader, idx) => {
-            // View no more than 10 result items
+            // View no more than 10 leaders
             if (idx < 10) {
               return <LeaderItem item={leader} key={leader.id} />;
             }

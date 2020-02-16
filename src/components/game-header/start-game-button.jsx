@@ -4,14 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setStartGame, reStartGame } from '../../store/actions/data-actions';
 
-const StartGameButton = ({
-  isGameStarted,
-  winner,
-  field,
-  playerName,
-  setStartGame,
-  reStartGame
-}) => {
+const StartGameButton = ({ winner, field, playerName, setStartGame, reStartGame }) => {
   const [isActive, setIsActive] = useState(false);
   useEffect(() => {
     if (field.length !== 0 && playerName !== '') {
@@ -45,9 +38,14 @@ const StartGameButton = ({
 
 StartGameButton.propTypes = {
   setStartGame: PropTypes.func.isRequired,
-  isGameStarted: PropTypes.bool.isRequired,
   field: PropTypes.array.isRequired,
-  playerName: PropTypes.string.isRequired
+  playerName: PropTypes.string.isRequired,
+  winner: PropTypes.object,
+  reStartGame: PropTypes.func.isRequired
+};
+
+StartGameButton.defaultProps = {
+  winner: null
 };
 
 const mapStateToProps = state => ({

@@ -29,13 +29,12 @@ const GameField = ({
   curElement,
   field,
   changeCell,
-  userScores,
   setUserScores,
-  setComputerScores,
-  setStartGame
+  setComputerScores
 }) => {
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
 
+  // User's turn
   const onClick = (id, status) => {
     if (status === 1 && isPlayerTurn) {
       changeCell(id, 2);
@@ -50,14 +49,6 @@ const GameField = ({
     if (newResult.length !== 0) {
       changeCell(element.id, 1);
     }
-  };
-
-  const startRound = () => {
-    setStartGame(true);
-  };
-
-  const stopRound = () => {
-    setStartGame(false);
   };
 
   useInterval(
@@ -77,7 +68,7 @@ const GameField = ({
     <>
       <StyledField style={{ gridTemplateColumns: `repeat(${Math.sqrt(field.length)}, 1fr)` }}>
         {field &&
-          field.map((el, idx) => {
+          field.map(el => {
             return (
               <div
                 key={el.id}
@@ -105,13 +96,9 @@ GameField.propTypes = {
   field: PropTypes.array.isRequired,
   changeCell: PropTypes.func.isRequired,
   isGameStarted: PropTypes.bool,
-  // isPlayerTurn: PropTypes.bool.isRequired,
-  // isComputerTurn: PropTypes.bool.isRequired,
   curElement: PropTypes.object,
-  userScores: PropTypes.number.isRequired,
   setUserScores: PropTypes.func.isRequired,
-  setComputerScores: PropTypes.func.isRequired,
-  setStartGame: PropTypes.func.isRequired
+  setComputerScores: PropTypes.func.isRequired
 };
 
 GameField.defaultProps = {
@@ -123,10 +110,7 @@ const mapStateToProps = state => ({
   currentSettings: state.data.currentSettings,
   field: state.data.field,
   isGameStarted: state.data.isGameStarted,
-  // isPlayerTurn: state.data.isPlayerTurn,
-  // isComputerTurn: state.data.isComputerTurn,
-  curElement: state.data.curElement,
-  userScores: state.scores.userScores
+  curElement: state.data.curElement
 });
 
 export default connect(mapStateToProps, {

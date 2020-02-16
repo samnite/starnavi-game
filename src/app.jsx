@@ -4,7 +4,6 @@ import GameField from './components/game-field/game-field';
 import Message from './components/game-field/message';
 import GameHeader from './components/game-header/game-header';
 import Leaders from './components/leaders/leaders';
-import Spinner from './components/util/spinner';
 
 const StyledContainer = styled.div`
   max-width: 1100px;

@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 export const StyledSpinner = styled.div`
-  color: var(--primary-hover-color);
   font-size: 0.5rem;
   margin: 100px auto;
   width: 1em;

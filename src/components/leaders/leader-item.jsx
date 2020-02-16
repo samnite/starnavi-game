@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const StyledItem = styled.li`
   display: flex;
@@ -21,6 +22,10 @@ const LeaderItem = ({ item }) => {
       <p>{item.winner}</p> <p>{item.date}</p>
     </StyledItem>
   );
+};
+
+LeaderItem.propTypes = {
+  item: PropTypes.object.isRequired
 };
 
 export default LeaderItem;
