@@ -33,7 +33,7 @@ const StyledArea = styled.div`
 const App = () => {
   return (
     <StyledContainer>
-      <h1>StarNavi Bricks game</h1>
+      <h1>StarNavi Bricks Game</h1>
       <StyledGrid>
         <StyledArea>
           <GameHeader />
