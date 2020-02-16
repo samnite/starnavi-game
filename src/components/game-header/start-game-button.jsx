@@ -21,6 +21,7 @@ const StartGameButton = ({ winner, field, playerName, setStartGame, reStartGame 
 
   const onReStartGame = () => {
     reStartGame();
+    setIsActive(false);
   };
 
   return (
@@ -30,7 +31,12 @@ const StartGameButton = ({ winner, field, playerName, setStartGame, reStartGame 
           Play
         </Button>
       ) : (
-        <Button type="primary" icon="sync" onClick={onReStartGame}>
+        <Button
+          type="primary"
+          icon="sync"
+          disabled={!playerName && !isActive}
+          onClick={onReStartGame}
+        >
           Play Again
         </Button>
       )}
