@@ -2,6 +2,8 @@
 
 ## You can try demo [Here](https://affectionate-pasteur-80d746.netlify.com/).
 
+### `Application use responsive web design you can try it on your phone`
+
 ## Application techs:
 
 - Create React App
