@@ -2,19 +2,25 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { initField, changeCell, setStartGame } from '../store/actions/data-actions';
-import { setUserScores, setComputerScores } from '../store/actions/scores-actions';
-import useInterval from '../util/set-interval';
-import StartGameButton from './start-game-button';
+import { initField, changeCell, setStartGame } from '../../store/actions/data-actions';
+import { setUserScores, setComputerScores } from '../../store/actions/scores-actions';
+import useInterval from '../../util/set-interval';
+import StartGameButton from '../game-header/start-game-button';
 
 const StyledField = styled.div`
   width: 350px;
   height: 350px;
   display: grid;
+  margin: 0 auto;
+  justify-content: center;
   div {
     border: 1px solid #999;
     text-align: center;
     cursor: pointer;
+  }
+  @media (max-width: 768px) {
+    width: 300px;
+    height: 300px;
   }
 `;
 
@@ -65,14 +71,11 @@ const GameField = ({
       }
       oneRound();
     },
-    isGameStarted ? currentSettings.delay : null
+    isGameStarted ? 100 : null
   );
 
   return (
     <>
-      <button type="submit" onClick={stopRound}>
-        Stop
-      </button>
       <StyledField style={{ gridTemplateColumns: `repeat(${Math.sqrt(field.length)}, 1fr)` }}>
         {field &&
           field.map((el, idx) => {
@@ -83,11 +86,11 @@ const GameField = ({
                 style={{
                   background:
                     el.status === 2
-                      ? 'green'
+                      ? '#66ff66'
                       : el.status === 1
-                      ? 'blue'
+                      ? '#0066ff'
                       : el.status === 3
-                      ? 'red'
+                      ? '#ff5050'
                       : 'white'
                 }}
               />

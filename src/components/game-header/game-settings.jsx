@@ -2,11 +2,17 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Select } from 'antd';
 import { connect } from 'react-redux';
-import { getSettings, setSettings, initField } from '../store/actions/data-actions';
-import StartGameButton from './start-game-button';
-import NameField from './name-field';
+import styled from 'styled-components';
+import { getSettings, setSettings, initField } from '../../store/actions/data-actions';
 
 const { Option } = Select;
+
+const StyledSelect = styled(Select)`
+  width: 150px;
+  @media (max-width: 768px) {
+    width: 140px;
+  }
+`;
 
 const GameSettings = ({ initField, isGameStarted, getSettings, setSettings, fetchedSettings }) => {
   useEffect(() => {
@@ -24,26 +30,22 @@ const GameSettings = ({ initField, isGameStarted, getSettings, setSettings, fetc
   };
 
   return (
-    <div>
-      <Select
-        defaultValue="Pick game mode"
-        disabled={isGameStarted}
-        onChange={onChange}
-        style={{ width: '150px' }}
-      >
-        {fetchedSettings &&
-          fetchedSettings.map(el => {
-            const value = Object.keys(el)[0];
-            return (
-              <Option value={value} key={value}>
-                {value}
-              </Option>
-            );
-          })}
-      </Select>
-      <NameField />
-      <StartGameButton />
-    </div>
+    <StyledSelect
+      defaultValue="Pick game mode"
+      disabled={isGameStarted}
+      onChange={onChange}
+      style={{ width: '150px' }}
+    >
+      {fetchedSettings &&
+        fetchedSettings.map(el => {
+          const value = Object.keys(el)[0];
+          return (
+            <Option value={value} key={value}>
+              {value}
+            </Option>
+          );
+        })}
+    </StyledSelect>
   );
 };
 

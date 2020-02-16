@@ -7,7 +7,10 @@ import {
   SET_CURRENT_CELL,
   SET_RED_CELL,
   SET_GAME_STARTED,
-  SET_MESSAGE
+  SET_MESSAGE,
+  SET_WINNER,
+  SET_RESET_SCORES,
+  SET_RESTART_GAME
 } from '../types';
 
 axios.defaults.baseURL = 'https://starnavi-frontend-test-task.herokuapp.com/';
@@ -38,12 +41,17 @@ export const setSettings = settings => dispatch => {
   });
 };
 
-// Generate game field
-export const initField = size => dispatch => {
+const generateField = size => {
   const field = [];
   for (let i = 1; i <= size; i++) {
     field.push({ id: i, status: 0 });
   }
+  return field;
+};
+
+// Generate game field
+export const initField = size => dispatch => {
+  const field = generateField(size);
   dispatch({
     type: INIT_FIELD,
     payload: field
@@ -74,11 +82,36 @@ export const changeCell = (id, status) => (dispatch, getState) => {
       type: SET_MESSAGE,
       payload: `${getState().scores.playerName} win the game!`
     });
+    // Init winner object
+    const winner = {
+      name: getState().scores.playerName,
+      scores: getState().scores.userScores,
+      date: new Date()
+    };
+    dispatch({
+      type: SET_WINNER,
+      payload: winner
+    });
+
     // Check if Computer is a winner
   } else if (computerScores > field.length / 2) {
     dispatch({
       type: SET_GAME_STARTED,
       payload: false
+    });
+    dispatch({
+      type: SET_MESSAGE,
+      payload: 'Computer win the game!'
+    });
+    // Init winner object
+    const winner = {
+      name: 'Computer AI',
+      scores: getState().scores.computerScores,
+      date: new Date()
+    };
+    dispatch({
+      type: SET_WINNER,
+      payload: winner
     });
   } else {
     const replaceCell = {
@@ -98,9 +131,17 @@ export const changeCell = (id, status) => (dispatch, getState) => {
   }
 };
 
-export const setMessage = message => dispatch => {
+export const reStartGame = () => (dispatch, getState) => {
+  const size = getState().data.currentSettings.field;
+  const field = generateField(size * size);
   dispatch({
-    type: SET_MESSAGE,
-    payload: message
+    type: INIT_FIELD,
+    payload: field
+  });
+  dispatch({
+    type: SET_RESET_SCORES
+  });
+  dispatch({
+    type: SET_RESTART_GAME
   });
 };

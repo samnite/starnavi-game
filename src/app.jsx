@@ -1,16 +1,36 @@
 import React from 'react';
-import Settings from './components/game-settings';
-import GameField from './components/game-field';
+import styled from 'styled-components';
+import GameField from './components/game-field/game-field';
 import Message from './components/message';
+import GameHeader from './components/game-header/game-header';
+
+const StyledContainer = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-gap: 1rem;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const StyledArea = styled.div`
+  margin: 3rem;
+`;
 
 const App = () => {
   return (
-    <div className="container">
-      <h1>Hello</h1>
-      <Settings />
-      <Message />
-      <GameField />
-    </div>
+    <StyledContainer>
+      <StyledArea>
+        <GameHeader />
+        <Message />
+        <GameField />
+      </StyledArea>
+      <StyledArea>
+        <h1>High scores</h1>
+      </StyledArea>
+    </StyledContainer>
   );
 };
 
