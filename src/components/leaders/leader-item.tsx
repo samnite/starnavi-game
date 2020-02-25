@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 const StyledItem = styled.li`
   display: flex;
@@ -16,16 +15,19 @@ const StyledItem = styled.li`
   }
 `;
 
-const LeaderItem = ({ item }) => {
+type Props = {
+  item: {
+    winner: string;
+    date: string;
+  };
+};
+
+const LeaderItem: FunctionComponent<Props> = ({ item }) => {
   return (
     <StyledItem>
       <p>{item.winner}</p> <p>{item.date}</p>
     </StyledItem>
   );
-};
-
-LeaderItem.propTypes = {
-  item: PropTypes.object.isRequired
 };
 
 export default LeaderItem;
