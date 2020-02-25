@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { FunctionComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { getLeaders, sendResult } from '../../store/actions/scores-actions';
 import LeaderItem from './leader-item';
 import Spinner from '../util/spinner';
+import { Winner } from '../../store/reducers/scores-reducer';
 
 const StyledLeaders = styled.ul`
   list-style: none;
@@ -19,7 +19,14 @@ const StyledHeader = styled.h2`
   text-align: center;
 `;
 
-const Leaders = ({ leaders, winner, getLeaders, sendResult }) => {
+type OwnProps = {
+  leaders: Winner[];
+  winner: Winner;
+  getLeaders: () => void;
+  sendResult: () => void;
+};
+
+const Leaders: FunctionComponent<OwnProps> = ({ leaders, winner, getLeaders, sendResult }) => {
   useEffect(() => {
     getLeaders();
     // eslint-disable-next-line
@@ -51,20 +58,16 @@ const Leaders = ({ leaders, winner, getLeaders, sendResult }) => {
   );
 };
 
-Leaders.propTypes = {
-  getLeaders: PropTypes.func.isRequired,
-  leaders: PropTypes.array.isRequired,
-  winner: PropTypes.object,
-  sendResult: PropTypes.func.isRequired
-};
+interface Scores {
+  scores: {
+    winner: Winner;
+    leaders: Winner[];
+  };
+}
 
-Leaders.defaultProps = {
-  winner: null
-};
-
-const mapStateToProps = state => ({
-  leaders: state.scores.leaders,
-  winner: state.scores.winner
+const mapStateToProps = ({ scores: { leaders, winner } }: Scores) => ({
+  leaders,
+  winner
 });
 
 export default connect(mapStateToProps, { getLeaders, sendResult })(Leaders);

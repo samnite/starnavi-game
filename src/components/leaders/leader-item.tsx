@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
+import { Winner } from '../../store/reducers/scores-reducer';
 
 const StyledItem = styled.li`
   display: flex;
@@ -15,14 +16,11 @@ const StyledItem = styled.li`
   }
 `;
 
-type Props = {
-  item: {
-    winner: string;
-    date: string;
-  };
+type OwnProps = {
+  item: Winner;
 };
 
-const LeaderItem: FunctionComponent<Props> = ({ item }) => {
+const LeaderItem: FunctionComponent<OwnProps> = ({ item }) => {
   return (
     <StyledItem>
       <p>{item.winner}</p> <p>{item.date}</p>
